@@ -25,8 +25,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<BloggieDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieDbConnectionString")));
-builder.Services.AddScoped<ITagRepo, TagRepo>();
 
+builder.Services.AddScoped<ITagRepo, TagRepo>();
+builder.Services.AddScoped<IBlogPostRepo, BlogPostRepo>();
 
 var app = builder.Build();
 app.UseCors("AllowReactApp");

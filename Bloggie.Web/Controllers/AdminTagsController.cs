@@ -69,7 +69,23 @@ namespace Bloggie.Web.Controllers
             return View(tags);
 
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetTagById(Guid id)
+        {   var tag = await tagRepo.GetTagByIdAsync(id);
+            Console.WriteLine("here ");
+            if (tag == null)
+            {
+                Console.WriteLine("Not found ");
+                return NotFound();
+            }
+            string json = JsonSerializer.Serialize(tag, new JsonSerializerOptions
+            {
+                WriteIndented = true // makes it pretty-printed
+            });
+            Console.WriteLine("From hhere" + json );
+            return Ok(tag);
+            //return View("List", tag);
+        }
 
         [HttpPost]
         public async Task<IActionResult> EditInline(Guid id, string displayName)

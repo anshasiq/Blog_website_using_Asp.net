@@ -2,6 +2,9 @@
 .vs/
 *.user
 *.suo
+appsettings.APIs.json
+appsettings.*.json
+!appsettings.json
 
 # Build results
 bin/

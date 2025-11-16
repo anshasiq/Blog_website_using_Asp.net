@@ -34,9 +34,15 @@ namespace Bloggie.Web.Repo
            
         }
 
-        public Task<Tags> GetTagByIdAsync(Guid id)
+        public async Task<Tags> GetTagByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var tag = await bloggieDbContext.Tags.FindAsync(id);
+            if (tag == null)
+            {
+                return null;
+            }
+            return tag;
+       
         }
 
         public async Task<Tags?> UpdateTagAsync(Guid id, string displayName)
