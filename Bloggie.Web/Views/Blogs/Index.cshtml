@@ -1,0 +1,33 @@
+﻿@model Bloggie.Web.Models.Domain.BlogPost
+
+
+@{
+}
+
+<h1>Blog Posts</h1>
+<div class="container py-5">
+    @if (Model != null)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Heading</h5>
+                <p class="card-text">@Model.ShortDescription</p>
+                <p class="card-text">
+                    <small class="text-muted
+    ">Published on @Model.Created.ToString("MMMM dd, yyyy")</small>
+                    </p>
+                <div class="d-flex">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <span class="badge bg-secondary me-1">@tag.DisplayName</span>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>No blog posts available.</p>
+}
+</div>
+

@@ -2,82 +2,91 @@
 
 
 @{
+ 
 }
+<link rel="stylesheet" href="~/css/addBlog.css" />
 <div class="bg-secondary bg-opacity-10 py-2">
     <div class="container">
         <h1>Add New BlogPost - Admin Functionality</h1>
     </div>
 </div>
+@* <style>
+    /* CSS only for this page */
+    #featuredImageDisplay {
+        border: 2px solid #ccc;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
 
+    h1 {
+        color: darkblue;
+        font-weight: bold;
+    }
+</style> *@
 <div class="container py-5">
     <form method="post">
 
         <div class="mb-3">
             <label class="form-label">Heading</label>
-            <input type="text" class="form-control" id="heading" asp-for="Heading" /> 
+            <input type="text" class="form-control" id="heading" asp-for="Heading" required />
+       
         </div>
 
         <div class="mb-3">
             <label class="form-label">Page Title</label>
-            <input type="text" class="form-control" id="pageTitle" asp-for="PageTitle" />
+            <input type="text" class="form-control" id="pageTitle" asp-for="PageTitle" required />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Content</label>
-            <textarea class="form-control" id="content" asp-for="Content"></textarea>
+            <label class="form-label" required>Content</label>
+            <textarea class="form-control" id="content" asp-for="Content" required></textarea>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Short Description</label>
-            <input type="text" class="form-control" id="shortDescription" asp-for="ShortDescription" />
+            <input type="text" class="form-control" id="shortDescription" asp-for="ShortDescription" required />
         </div>
 
-        @* <div class="mb-3">
+      
+        <div class="mb-3" >
             <label class="form-label">Featured Image Upload</label>
-            <input type="file" id="featuredImageUpload" class="form-control" />
-
+            <input type="file" id="featuredImageUpload" class="form-control" required />
             <img src="" id="featuredImageDisplay" style="display:none;width: 300px;" />
-        </div> *@
 
-        <div class="mb-3">
-            <label class="form-label">Featured Image URL</label>
-            <input type="text" class="form-control" id="featuredImageUrl" asp-for="FeaturedImageUrl" />
+            <!-- Hidden field to store the Cloudinary URL -->
+            <input type="hidden" id="featuredImageUrl" name="FeaturedImageUrl" asp-for="FeaturedImageUrl" />
         </div>
+
+     
 
         <div class="mb-3">
             <label class="form-label">URL Handle</label>
-            <input type="text" class="form-control" id="urlHandle" asp-for="UrlHandle" />
+            <input type="text" class="form-control" id="urlHandle" asp-for="UrlHandle" required />
         </div>
 
         <div class="mb-3">
             <label class="form-label">Published Date</label>
-            <input type="date" class="form-control" id="Created" asp-for="Created" />
+            <input type="date" class="form-control" id="Created" asp-for="Created" required />
         </div>
 
         <div class="mb-3">
             <label class="form-label">Author</label>
-            <input type="text" class="form-control" id="author" asp-for="Author" />
+            <input type="text" class="form-control" id="author" asp-for="Author" required />
         </div>
 
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="visible" asp-for="Visible">
+            <input class="form-check-input" type="checkbox" id="visible" asp-for="Visible" required>
             <label class="form-check-label">
                 Is Visible?
             </label>
         </div>
 
-        @*  <div class="mb-3">
-            <label class="form-label">Tags</label>
-            <select class="form-select"
-                    asp-items="@Model.Tags"
-                     asp-for="SelectedTags"> 
-            </select>
-        </div>  
-        *@
+    
+        
 
         <div class="mb-3">
             <label class="form-label">Tags</label>
-            <select class="form-select" asp-for="SelectedTagId" asp-items="Model.Tags">
+            <select class="form-select" asp-for="SelectedTagId" asp-items="Model.Tags" required>
             </select>
         </div>
 
@@ -94,7 +103,129 @@
 
 
 @section Scripts {
+    <script> 
+               new FroalaEditor('#content');
+        document.addEventListener("DOMContentLoaded", () => {
+        // Initialize Froala editor
+        new FroalaEditor('#content');
+
+        // Preview image locally when selected
+        const fileInput = document.getElementById("featuredImageUpload");
+        const preview = document.getElementById("featuredImageDisplay");
+
+        fileInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = "block";
+        });
+
+        // Handle form submission
+        document.querySelector("form").addEventListener("submit", async (event) => {
+            event.preventDefault(); // stop default submit until upload finishes
+
+            const file = fileInput.files[0];
+            const saveButton = event.target.querySelector("button[type=submit]");
+
+            // Show loading state
+            saveButton.disabled = true;
+            saveButton.textContent = "Uploading...";
+            saveButton.classList.add("btn-waiting");
+
+            if (file) {
+                const formData = new FormData();
+                formData.append("file", file);
+
+                try {
+                    const response = await fetch("http://localhost:5210/image/upload", {
+                        method: "POST",
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        alert("Image upload failed!");
+                        saveButton.disabled = false;
+                        saveButton.textContent = "Save";
+                        saveButton.classList.remove("btn-waiting");
+                        return;
+                    }
+
+                    const result = await response.json();
+                    document.getElementById("featuredImageUrl").value = result.imageUrl;
+                } catch (error) {
+                    alert("Error uploading image!");
+                    console.error(error);
+                    saveButton.disabled = false;
+                    saveButton.textContent = "Save";
+                    saveButton.classList.remove("btn-waiting");
+                    return;
+                }
+            }
+
+            // Restore button state
+            saveButton.disabled = false;
+            saveButton.textContent = "Save";
+            saveButton.classList.remove("btn-waiting");
+
+            // Submit the form with all fields including FeaturedImageUrl
+            event.target.submit();
+        });
+    });
+    @* <script>
+        document.getElementById("featuredImageUpload").addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Show preview locally
+            const preview = document.getElementById("featuredImageDisplay");
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = "block";
+        });
+    </script>
     <script>
         new FroalaEditor('#content');
+
+        document.querySelector("form").addEventListener("submit", async (event) => {
+            event.preventDefault(); // stop default submit until upload finishes
+
+            const fileInput = document.getElementById("featuredImageUpload");
+            const file = fileInput.files[0];
+
+            // Show loading indicator
+            const saveButton = event.target.querySelector("button[type=submit]");
+            saveButton.disabled = true;
+            saveButton.textContent = "Uploading...";
+
+            if (file) {
+                const formData = new FormData();
+                formData.append("file", file);
+
+                const response = await fetch("http://localhost:5210/image/upload", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    alert("Image upload failed!");
+                    saveButton.disabled = false;
+                    saveButton.textContent = "Save";
+                    return;
+                }
+
+                const result = await response.json();
+                document.getElementById("featuredImageUrl").value = result.imageUrl;
+            }
+
+            // Restore button text
+            saveButton.disabled = false;
+            saveButton.textContent = "Save";
+
+            // Now submit the form with all fields including FeaturedImageUrl
+            event.target.submit();
+        });
+     *@
     </script>
+
 }
+   

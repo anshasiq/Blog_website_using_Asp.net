@@ -39,5 +39,12 @@ namespace Bloggie.Web.Repo
         {
             throw new NotImplementedException();
         }
+
+        public async Task<BlogPost?> GetByUrlHandleAsync(string urlHandle)
+        {
+            return await bloggieDbContext.BlogPosts.Include(x => x.Tags)
+                .FirstOrDefaultAsync(x => x.UrlHandle == urlHandle);
+        }
     }
+    
 }

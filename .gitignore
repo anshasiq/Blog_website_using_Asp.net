@@ -3,12 +3,12 @@
 *.user
 *.suo
 appsettings.APIs.json
-appsettings.*.json
-# !appsettings.json
 appsettings.json
+# !appsettings.json
+# appsettings.json
 # Build results
 bin/
 obj/
-
+/appsettings.json
 # Other
 *.log

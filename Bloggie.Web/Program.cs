@@ -28,6 +28,7 @@ builder.Services.AddDbContext<BloggieDbContext>(options =>
 
 builder.Services.AddScoped<ITagRepo, TagRepo>();
 builder.Services.AddScoped<IBlogPostRepo, BlogPostRepo>();
+builder.Services.AddScoped<CloudinaryImageRepo>();
 
 var app = builder.Build();
 app.UseCors("AllowReactApp");

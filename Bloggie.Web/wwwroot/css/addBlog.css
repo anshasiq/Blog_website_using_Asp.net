@@ -1,0 +1,78 @@
+﻿#featuredImageDisplay {
+    display: none;
+    width: 300px;
+    border: 29px solid #444;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+
+/* Normal Save button */
+.btn-dark {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-dark:hover {
+    background-color: #222;
+    transform: scale(1.05);
+}
+
+/* Waiting/Uploading state */
+.btn-waiting {
+    background-color: #6c757d !important; /* grey */
+    color: #fff !important;
+    cursor: not-allowed;
+    position: relative;
+}
+
+    /* Spinner effect inside the button */
+    .btn-waiting::after {
+        content: "";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        width: 16px;
+        height: 16px;
+        margin-top: -8px;
+        border: 2px solid #fff;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+.mb-3 {
+    background-color: #f8f9fa; /* light grey background */
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+    /* Hover effect */
+    .mb-3:hover {
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    /* Labels inside div */
+    .mb-3 .form-label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* Inputs inside div */
+    .mb-3 .form-control,
+    .mb-3 .form-select {
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+

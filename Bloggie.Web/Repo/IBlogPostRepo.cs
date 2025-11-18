@@ -10,7 +10,7 @@ namespace Bloggie.Web.Repo
         Task<BlogPost> AddBlogAsync(BlogPost blogPost);
         //Task<BlogPost?> UpdateTagAsync(Guid id, string displayName);
         //Task<Tags?> DeleteTagAsync(Guid id);
-
+        Task<BlogPost?> GetByUrlHandleAsync(string urlHandle);
         Task DeleteBlogAsync(Guid id);
     }
 }
