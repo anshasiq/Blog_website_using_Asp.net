@@ -1,8 +1,9 @@
 using Bloggie.Web.Data;
 using Bloggie.Web.Repo;
-using Microsoft.EntityFrameworkCore;
+using Bloggie.Web.Service;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,10 +34,26 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
 builder.Services.AddIdentity<Microsoft.AspNetCore.Identity.IdentityUser, Microsoft.AspNetCore.Identity.IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+});
+
+//builder.Services.ConfigureApplicationCookie(options =>
+//{
+//    options.LoginPath = "/Account/Login";   // redirect here if not logged in
+//    options.AccessDeniedPath = "/Account/AccessDenied"; // if logged in but not allowed
+//});
+
 builder.Services.AddScoped<ITagRepo, TagRepo>();
 builder.Services.AddScoped<IBlogPostRepo, BlogPostRepo>();
 builder.Services.AddScoped<CloudinaryImageRepo>();
-
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 var app = builder.Build();
 
 
