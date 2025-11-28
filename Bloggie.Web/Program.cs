@@ -44,11 +44,11 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredUniqueChars = 1;
 });
 
-//builder.Services.ConfigureApplicationCookie(options =>
-//{
-//    options.LoginPath = "/Account/Login";   // redirect here if not logged in
-//    options.AccessDeniedPath = "/Account/AccessDenied"; // if logged in but not allowed
-//});
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";   // redirect here if not logged in
+    options.AccessDeniedPath = "/Account/AccessDenied"; // if logged in but not allowed
+});
 
 builder.Services.AddScoped<ITagRepo, TagRepo>();
 builder.Services.AddScoped<IBlogPostRepo, BlogPostRepo>();

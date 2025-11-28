@@ -1,6 +1,7 @@
 ﻿using Bloggie.Web.Models.Domain;
 using Bloggie.Web.Models.ViewModels;
 using Bloggie.Web.Repo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -19,10 +20,12 @@ namespace Bloggie.Web.Controllers
             this.tagRepository = tagRepository;
             this.blogPostRepo = blogPostRepo;
         }
+        [Authorize]
         public IActionResult Index()
         {
             return View("Index");
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -45,6 +48,7 @@ namespace Bloggie.Web.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Add(AddBlogPostReq addBlogPostReq)
         {
@@ -83,7 +87,7 @@ namespace Bloggie.Web.Controllers
             return RedirectToAction("Add");
 
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> ListOfBlog()
         {
