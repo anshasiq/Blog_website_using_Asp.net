@@ -52,6 +52,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddScoped<ITagRepo, TagRepo>();
 builder.Services.AddScoped<IBlogPostRepo, BlogPostRepo>();
+builder.Services.AddScoped<BlogPostLikeRepo>();
 builder.Services.AddScoped<CloudinaryImageRepo>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 var app = builder.Build();

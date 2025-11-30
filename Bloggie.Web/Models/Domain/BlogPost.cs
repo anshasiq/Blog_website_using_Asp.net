@@ -6,7 +6,6 @@ namespace Bloggie.Web.Models.Domain
     {
         public Guid Id { get; set; }
         [Required]
-        [StringLength(150, ErrorMessage = "Heading cannot be longer than 150 characters.")]
         public string Heading { get; set; }
 
         [Required]
@@ -25,23 +24,23 @@ namespace Bloggie.Web.Models.Domain
         [DataType(DataType.DateTime)]
         public DateTime Created { get; set; }
 
-        [StringLength(300, ErrorMessage = "Short description cannot exceed 300 characters.")]
+
+        
         public string ShortDescription { get; set; }
 
-        [Required]
+     
         //[StringLength(100)]
         public string Author { get; set; }
 
-        [Required]
-        [RegularExpression(@"^[a-z0-9\-]+$", ErrorMessage = "UrlHandle must be lowercase letters, numbers, or hyphens.")]
+      
         public string UrlHandle { get; set; }
 
-        [Required]
+       
         public bool Visible { get; set; }
 
         public ICollection<Tags> Tags { get; set; }
 
-
+        public ICollection<BlogPostLike> Likes { get; set; }
 
 
     }

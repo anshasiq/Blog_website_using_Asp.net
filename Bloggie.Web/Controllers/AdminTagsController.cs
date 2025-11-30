@@ -1,6 +1,8 @@
 ﻿using Bloggie.Web.Data;
 using Bloggie.Web.Models.Domain;
 using Bloggie.Web.Repo;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace Bloggie.Web.Controllers
 {
-    
-    
 
+
+    [Authorize(Roles = "SuperAdmin")]
     public class AdminTagsController : Controller
     {
         private readonly ITagRepo tagRepo;
@@ -21,6 +23,8 @@ namespace Bloggie.Web.Controllers
         {
             this.tagRepo = tagRepo;
         }
+
+       
         [HttpGet]
         public IActionResult Add()
         {

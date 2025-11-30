@@ -1,4 +1,6 @@
-﻿@model Bloggie.Web.Models.Domain.BlogPost
+﻿@model Bloggie.Web.Models.ViewModels.BlogDetailsViewModel
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager;
 
 
 @{
@@ -11,10 +13,32 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">@Model.Heading</h5>
+                <h3 class="mb-3">
+                    <span>@Model.TotalLikes </span>   Like
+                </h3>
+               
+                @* @if (SignInManager.IsSignedIn(User))
+                {
+                    <form asp-action="ToggleLike" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-primary">
+                            @(Model.Liked ? "Unlike" : "Like")
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <p><em>Please log in to like this post.</em></p>
+                } *@
+    
+                <a>
+                    <i class="bi bi-hand-thumbs-up"></i>
+                </a>
+                <img src="@Model.FeaturedImageUrl" style="max-height:400px; max-width:400px; align-items:center" />
                 <p class="card-text">@Model.ShortDescription</p>
                 <p class="card-text">
                     <small class="text-muted
-    ">Published on @Model.Created.ToString("MMMM dd, yyyy")</small>
+    ">Published on @Model.PublishedDate.ToString("MMMM dd, yyyy")</small>
                     </p>
                 <div class="d-flex">
                     @foreach (var tag in Model.Tags)
