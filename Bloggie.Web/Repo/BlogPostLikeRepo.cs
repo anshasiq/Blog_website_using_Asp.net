@@ -29,5 +29,8 @@ namespace Bloggie.Web.Repo
             return await bloggieDbContext.BlogPostLikes
                 .CountAsync(x => x.BlogPostId == blogPostId);
         }
+
+
+
     }
 }
