@@ -55,6 +55,7 @@ builder.Services.AddScoped<IBlogPostRepo, BlogPostRepo>();
 builder.Services.AddScoped<BlogPostLikeRepo>();
 builder.Services.AddScoped<CloudinaryImageRepo>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddScoped<UserRepository>();
 var app = builder.Build();
 
 
