@@ -9,9 +9,42 @@
         <h1>Add New Tag - Admin Functionality</h1>
     </div>
 </div>
+<form method="get"
+      asp-controller="AdminTags"
+      asp-action="List">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col col-md-3 d-flex">
+                <input type="text" class="form-control"
+                       name="searchQuery" value="@ViewBag.SearchQuery" />
 
+                <button type="submit" class="btn btn-warning ms-3">Search</button>
 
-<div class="container py-5">
+                <a asp-controller="AdminTags"
+                   asp-action="List"
+                   class="btn btn-outline-danger ms-2">
+                    Clear
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+@* <form method="get"
+      asp-controller="AdminTags" ,
+      asp-action="List">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col col-md-3 d-flex">
+                <input type="text" class="form-control" required
+                       name="searchQuery" value="@ViewBag.SearchQuery" />
+                <button type="submit" class="btn btn-warning ms-3">Search</button>
+            </div>
+        </div>
+    </div>
+    
+</form>*@
+
+<div class="container mt-3">
 @if (TempData["SuccessMessage"] != null)
 {
     if (TempData["SuccessMessage"].ToString() == "Saved successfully!")
@@ -35,8 +68,8 @@
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Display Name</th>
-                <th scope="col">Actions</th>
                 <th scope="col">Created At</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -45,9 +78,9 @@
                 <tr>
                     <td>@tag.Id</td>
                     <td>@tag.Name</td>
+                    <td>@tag.DisplayName</td>
                     <td data-time="@tag.CreatedAt.ToString("o")"></td>
                     @* <td>@tag.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td> *@
-                    <td>@tag.DisplayName</td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm"
                                 onclick="toggleEdit('@tag.Id')">

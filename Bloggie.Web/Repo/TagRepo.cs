@@ -28,10 +28,16 @@ namespace Bloggie.Web.Repo
            
         }
 
-        public async Task<IEnumerable<Tags>> GetAllTagsAsync()
+        public async Task<IEnumerable<Tags>> GetAllTagsAsync(string? SearchQuery)
         {
-          return await bloggieDbContext.Tags.ToListAsync();
-           
+            var tags =  bloggieDbContext.Tags.AsQueryable();
+            if (!string.IsNullOrEmpty(SearchQuery))
+            {
+                tags = tags.Where(x => x.Name.Contains(SearchQuery) || x.DisplayName.Contains(SearchQuery));
+            }
+            return await tags.ToListAsync();
+            //return await bloggieDbContext.Tags.ToListAsync();
+
         }
 
         public async Task<Tags> GetTagByIdAsync(Guid id)

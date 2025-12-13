@@ -4,7 +4,7 @@ namespace Bloggie.Web.Repo
 {
     public interface ITagRepo
     {
-        Task <IEnumerable <Tags>> GetAllTagsAsync();
+        Task <IEnumerable <Tags>> GetAllTagsAsync(string? SearchQuery = null);
 
         Task<Tags?> GetTagByIdAsync(Guid id);
         Task<Tags> AddTagAsync(Tags tag);

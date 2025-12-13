@@ -60,16 +60,10 @@ namespace Bloggie.Web.Controllers
 
         [HttpGet]
         [ActionName("List")]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string? SearchQuery)
         {
-            var tags = await tagRepo.GetAllTagsAsync();
-            Console.WriteLine(tags);
-            string json = JsonSerializer.Serialize(tags, new JsonSerializerOptions
-            {
-                WriteIndented = true // makes it pretty-printed
-            });
-
-            Console.WriteLine(json);
+            Console.WriteLine(SearchQuery != null ? SearchQuery : "null");
+            var tags = await tagRepo.GetAllTagsAsync(SearchQuery);
             return View(tags);
 
         }
